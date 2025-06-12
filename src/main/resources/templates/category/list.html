@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Category Manager</title>
+    <h1 align="center" style="color: orangered">Conlog</h1>
+    <hr>
+</head>
+<body>
+<h1>Category Manger</h1>
+
+<!-- 조회할 작업을 선택한다. -->
+<div>
+    <a th:href="@{/category/list/selected(operation='create')}">📝 Create</a> |
+    <a th:href="@{/category/list/selected(operation='read')}">👀 Read</a> |
+    <a th:href="@{/category/list/selected(operation='update')}">✏️ Update</a> |
+    <a th:href="@{/category/list/selected(operation='delete')}">🗑️ Delete</a>
+</div>
+
+<div>
+    <!-- 선택한 작업에 따라 화면이 보여진다. -->
+    <div th:if="${ selected != null}">
+        <th:block th:switch="${ selected }">
+            <span th:case="create">create 선택되었습니다.</span>
+            <span th:case="read">read 선택되었습니다.</span>
+            <span th:case="update">update 선택되었습니다.</span>
+            <span th:case="delete">delete 선택되었습니다.</span>
+        </th:block >
+    </div>
+
+    <h3>Category ViewPort</h3>
+    <!-- 전체 카테고리 출력 -->
+    <table border="1" th:if="${ categoryList != null }">
+        <tr>
+            <th>no</th>
+            <th>category name</th>
+        </tr>
+        <tr th:each="category : ${categoryList}">
+            <td th:text="${ category.categoryNo}"></td>
+            <td th:text="${ category.categoryName}"></td>
+        </tr>
+    </table>
+    <p th:if="${ categoryList == null }">⚠️데이터를 불러오지 못했어요.⚠️</p>
+
+</div>
+</body>
+</html>
