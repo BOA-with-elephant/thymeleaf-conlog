@@ -15,8 +15,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/category")
 public class CategoryController {
-    /* todo. categorylist를 조회하는 작업을 servlet?intersector로 묶어서 작업할 수 있게 가능한지. 그리고, Error Handler도 추가하기! */
-    /* comment. requestParam은 POST 때는 안써도 되는건가? 너무 헷갈려ㅠㅠ*/
+    /* todo. categorylist를 조회하는 작업을 servlet?intersector로 묶어서 작업할 수 있게 가능한지. ✅
+        그리고, Error Handler도 추가하기! */
 
     private CategoryService categoryService;
 
@@ -24,21 +24,11 @@ public class CategoryController {
 
     // Category List View
     @GetMapping("/list")
-    public String getCategory(Model model){
-        // Category List 조회
-        List<CategoryDTO> categoryList = categoryService.findAllCategory();
-        model.addAttribute("categoryList", categoryList);
-
-        return "category/list";  // templates/category/list.html
-    }
+    public void getCategory(){}
 
     // Select CRUD Job
     @GetMapping("/list/selected")
     public String selectJob(@RequestParam String operation, Model model){
-        // Category List 조회
-        List<CategoryDTO> categoryList = categoryService.findAllCategory();
-        model.addAttribute("categoryList", categoryList);
-
         model.addAttribute("selected",operation);
 
         return "category/list";
@@ -58,11 +48,6 @@ public class CategoryController {
     // Read Category
     @GetMapping("/read")
     public String findOneCategory(@RequestParam int categoryNo, Model model){
-
-        // Category List 조회
-        List<CategoryDTO> categoryList = categoryService.findAllCategory();
-        model.addAttribute("categoryList", categoryList);
-
         CategoryDTO categoryDTO =  categoryService.findOneCategory(categoryNo);
         model.addAttribute("oneCategory", categoryDTO);
 
@@ -73,7 +58,6 @@ public class CategoryController {
     @PostMapping("/update")
     public String modifyCategory(CategoryDTO categoryDTO,
                                  RedirectAttributes rttr){
-
         categoryService.modifyCategory(categoryDTO);
 
         rttr.addFlashAttribute("successMessage", "카테고리 수정이 성공적으로 되었습니다!");
@@ -84,7 +68,6 @@ public class CategoryController {
     @PostMapping("/delete")
     public String deleteCategory(int categoryNo,
                                  RedirectAttributes rttr){
-
         categoryService.deleteCategory(categoryNo);
 
         rttr.addFlashAttribute("successMessage", "카테고리가 정상적으로 삭제되었습니다. ");
