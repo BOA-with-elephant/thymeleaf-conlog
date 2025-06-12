@@ -5,43 +5,85 @@
     <title>Category Manager</title>
     <h1 align="center" style="color: orangered">Conlog</h1>
     <hr>
+    <script>
+        const successMessage = `[[${successMessage}]]`;
+        if (successMessage) alert(successMessage);
+    </script>
 </head>
 <body>
-<h1>Category Manger</h1>
+<div name="contents" align="center">
+    <h1>Category Manger</h1>
 
-<!-- 조회할 작업을 선택한다. -->
-<div>
-    <a th:href="@{/category/list/selected(operation='create')}">📝 Create</a> |
-    <a th:href="@{/category/list/selected(operation='read')}">👀 Read</a> |
-    <a th:href="@{/category/list/selected(operation='update')}">✏️ Update</a> |
-    <a th:href="@{/category/list/selected(operation='delete')}">🗑️ Delete</a>
-</div>
-
-<div>
-    <!-- 선택한 작업에 따라 화면이 보여진다. -->
-    <div th:if="${ selected != null}">
-        <th:block th:switch="${ selected }">
-            <span th:case="create">create 선택되었습니다.</span>
-            <span th:case="read">read 선택되었습니다.</span>
-            <span th:case="update">update 선택되었습니다.</span>
-            <span th:case="delete">delete 선택되었습니다.</span>
-        </th:block >
+    <!-- 조회할 작업을 선택한다. -->
+    <div>
+        <a th:href="@{/category/list/selected(operation='create')}">📝 Create</a> |
+        <a th:href="@{/category/list/selected(operation='read')}">👀 Read</a> |
+        <a th:href="@{/category/list/selected(operation='update')}">✏️ Update</a> |
+        <a th:href="@{/category/list/selected(operation='delete')}">🗑️ Delete</a>
     </div>
+    <br>
+    <div>
+        <!-- 선택한 작업에 따라 화면이 보여진다. -->
+        <div th:if="${ selected != null}">
 
-    <h3>Category ViewPort</h3>
-    <!-- 전체 카테고리 출력 -->
-    <table border="1" th:if="${ categoryList != null }">
-        <tr>
-            <th>no</th>
-            <th>category name</th>
-        </tr>
-        <tr th:each="category : ${categoryList}">
-            <td th:text="${ category.categoryNo}"></td>
-            <td th:text="${ category.categoryName}"></td>
-        </tr>
-    </table>
-    <p th:if="${ categoryList == null }">⚠️데이터를 불러오지 못했어요.⚠️</p>
+            <form th:unless="${ selected == 'read' }" th:action="@{|/category/${selected}|}" method="post">
+                <th:block th:switch="${ selected }">
+                    <span th:case="create">추가할 카테고리 이름을 입력해주세요.
+                        <input type="text" name="categoryName">
+                    </span>
 
+                    <span th:case="update">수정할 카테고리 이름과 코드를 입력해주세요.
+                        <br>
+                        <input type="number" name="categoryNo" placeholder="코드">
+                        <input type="text" name="categoryName" placeholder="이름">
+                    </span>
+
+
+                    <span th:case="delete">삭제할 카테고리 코드를 입력해주세요.
+                    <input type="number" name="categoryNo">
+                    </span>
+                </th:block>
+                <input type="submit" th:value="${selected}">
+            </form>
+
+            <form th:if="${ selected == 'read'}" th:action="@{|/category/${selected}|}" method="get">
+                <th:block th:switch="${ selected }">
+                <span th:case="read">조회할 카테고리 코드를 입력해주세요.
+                    <input type="number" name="categoryNo">
+                </span>
+                </th:block>
+                <input type="submit" th:value='read'>
+            </form>
+        </div>
+
+        <!-- 상세 조회 결과 출력 -->
+        <th:block th:object="${ oneCategory }" th:if="${ oneCategory != null }">
+            <table border="1">
+                <tr>
+                    <th>코드</th>
+                    <th>이름</th>
+                </tr>
+                <tr>
+                    <td th:text="*{ categoryNo }"></td>
+                    <td th:text="*{ categoryName }"></td>
+                </tr>
+            </table>
+        </th:block>
+
+        <h3>🧾Category ViewPort</h3>
+        <!-- 전체 카테고리 출력 -->
+        <table border="1" th:if="${ categoryList != null }">
+            <tr>
+                <th>no</th>
+                <th>category name</th>
+            </tr>
+            <tr th:each="category : ${categoryList}">
+                <td th:text="${ category.categoryNo}"></td>
+                <td th:text="${ category.categoryName}"></td>
+            </tr>
+        </table>
+        <p th:if="${ categoryList == null }">⚠️데이터를 불러오지 못했어요.⚠️</p>
+    </div>
 </div>
 </body>
 </html>
