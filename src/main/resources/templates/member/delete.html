@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DELETE</title>
+</head>
+<body>
+    <tbody th:replace="member/member-list.html"></tbody>
+    <div align="center">
+        <h2><i>Delete Menu</i></h2>
+        <form action="/member/delete" method="post">
+            <label>Member No: </label><input type="number" name="memberNo"><br>
+            <input type="submit" value="삭제">
+        </form>
+    </div>
+    <script>
+        fetch("/member/member-list")
+            .then(res => res.json())
+            .then(data =>{
+                console.log(data);
+
+                const $memberNo = document.getElementById("memberNo");
+                for (let index in data){
+                    const $option = document.createElement('option');
+                    $option.value = data[index].code;
+                    $option.value = data[index].name;
+                    $memberNo.appendChild($option);
+                }
+            })
+    </script>
+    <a th:href="@{/}">Go back to the main page</a>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>상세 보기</title>
+</head>
+<style>
+    a {
+        text-decoration: none;
+        color: orangered;
+    }
+</style>
+<body>
+<a href="/content/page">
+    <div th:replace="common/header.html"/>
+</a>
+<table align="center" border="1">
+    <tr>
+        <th>컨텐츠 번호</th>
+        <th>컨텐츠 이름</th>
+        <th>작가/감독 이름</th>
+        <th>출품 연도</th>
+        <th>이미지 URL</th>
+        <th>카테고리 이름</th>
+    </tr>
+    <tr th:each="content : ${ content }">
+        <td th:text="${ content.no }"></td>
+        <td th:text="${ content.contentsName }"></td>
+        <td th:text="${ content.creatorName }"></td>
+        <td th:text="${ content.year }"></td>
+        <td th:text="${ content.url }"></td>
+        <td th:text="${ content.category.name }"></td>
+    </tr>
+</table>
+</body>
+</html>

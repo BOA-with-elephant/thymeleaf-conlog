@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <title>리뷰</title>
+  <!-- 리뷰 스타일 CSS 적용 -->
+  <link rel="stylesheet" th:href="@{/css/review.css}"/>
+</head>
+<body>
+  <!-- check. 컨텐츠페이지에 같이 띄울거라면 헤더 삭제 필요 -->
+  <div th:replace="common/header.html"/>
+  <section id="review-section">
+    <h3>리뷰 등록</h3>
+    <form th:action="@{/review/regist}" method="post" class="review-form">
+      <!-- check. (임시값 전달중) 로그인 사용자 정보 & 콘텐츠 정보 : 추후 동적으로 바인딩 필요 -->
+      <input type="hidden" name="memberNo" value="1"/>
+      <input type="hidden" name="contentsNo" value="1"/>
+
+      <!-- 점수 입력 < 별점 라디오 버튼 스타일 > -->
+      <label>별점
+        <div class="star-rating">
+          <!-- id, for 속성 활용하여 별 선택 가능 -->
+          <input type="radio" id="star5" name="reviewScore" value="5"/><label for="star5">★</label>
+          <input type="radio" id="star4" name="reviewScore" value="4"/><label for="star4">★</label>
+          <input type="radio" id="star3" name="reviewScore" value="3"/><label for="star3">★</label>
+          <input type="radio" id="star2" name="reviewScore" value="2"/><label for="star2">★</label>
+          <input type="radio" id="star1" name="reviewScore" value="1"/><label for="star1">★</label>
+        </div>
+      </label><br/>
+
+      <textarea name="reviewContent" rows="4" cols="50" placeholder="리뷰를 작성해주세요."
+                required></textarea><br/>
+      <button type="submit">등록</button>
+    </form>
+
+    <h3><span th:text="${#lists.size(reviews)}">0</span> 개의 리뷰가 있습니다.</h3>
+
+    <!-- 리뷰 리스트 렌더링 -->
+    <div th:if="${not #lists.isEmpty(reviews)}">
+      <ul>
+        <li th:each="rv : ${reviews}" th:id="'review-' + ${rv.reviewNo}">
+          <div class="review-view">
+            <strong th:text="${rv.member.nickname}">닉네임</strong>
+
+            <span class="review-stars">
+              <span th:each="i : ${#numbers.sequence(1,5)}"
+                    th:text="${i <= rv.reviewScore ? '★' : '☆'}"
+                    th:style="${i <= rv.reviewScore ? 'color: #f39c12;' : 'color: #ccc;'}"></span>
+            </span>
+
+            <p th:text="${rv.reviewContent}">내용</p>
+
+            <div class="review-edit-footer">
+              <small th:text="${rv.reviewDate}">날짜</small>
+              <div class="review-edit-buttons">
+                <!-- 수정 버튼: 인라인 폼 표시 -->
+                <button type="button" th:onclick="'showEditForm(' + ${rv.reviewNo} + ')'">수정
+                </button>
+                <a th:href="@{/review/delete/{reviewNo}(reviewNo=${rv.reviewNo})}"
+                   onclick="return confirm('리뷰를 삭제하시겠습니까?');">
+                  <button type="button">삭제</button>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 인라인 수정 폼 -->
+          <div class="review-edit">
+            <form th:action="@{/review/edit}" method="post">
+              <input type="hidden" name="reviewNo" th:value="${rv.reviewNo}"/>
+              <input type="hidden" name="memberNo" th:value="${rv.member.memberNo}"/>
+              <!-- check. (임시값 전달중) 콘텐츠 정보 바인딩 필요 -->
+              <input type="hidden" name="contentsNo" value="1"/>
+
+              <!-- 점수 수정 입력 (기존 점수와 제시한 값이 같으면 해당 별점이 기본 선택(checked) 되도록 설정) -->
+              <label>점수:
+                <div class="star-rating">
+                  <input type="radio" th:id="'edit-star5-' + ${rv.reviewNo}" name="reviewScore"
+                         value="5" th:checked="${rv.reviewScore == 5}"/>
+                  <label th:for="'edit-star5-' + ${rv.reviewNo}">★</label>
+
+                  <input type="radio" th:id="'edit-star4-' + ${rv.reviewNo}" name="reviewScore"
+                         value="4" th:checked="${rv.reviewScore == 4}"/>
+                  <label th:for="'edit-star4-' + ${rv.reviewNo}">★</label>
+
+                  <input type="radio" th:id="'edit-star3-' + ${rv.reviewNo}" name="reviewScore"
+                         value="3" th:checked="${rv.reviewScore == 3}"/>
+                  <label th:for="'edit-star3-' + ${rv.reviewNo}">★</label>
+
+                  <input type="radio" th:id="'edit-star2-' + ${rv.reviewNo}" name="reviewScore"
+                         value="2" th:checked="${rv.reviewScore == 2}"/>
+                  <label th:for="'edit-star2-' + ${rv.reviewNo}">★</label>
+
+                  <input type="radio" th:id="'edit-star1-' + ${rv.reviewNo}" name="reviewScore"
+                         value="1" th:checked="${rv.reviewScore == 1}"/>
+                  <label th:for="'edit-star1-' + ${rv.reviewNo}">★</label>
+                </div>
+              </label><br>
+
+              <textarea name="reviewContent" rows="4" cols="50"
+                        th:text="${rv.reviewContent}">내용</textarea><br>
+
+              <button type="submit">수정 완료</button>
+              <!-- 취소 버튼: JS로 폼 닫기 -->
+              <button type="button" th:onclick="'cancelEdit(' + ${rv.reviewNo} + ')'">취소</button>
+            </form>
+          </div>
+          <hr/>
+        </li>
+      </ul>
+    </div>
+
+    <!-- 리뷰가 없을 때 -->
+    <p th:if="${#lists.isEmpty(reviews)}">리뷰가 아직 없습니다.</p>
+  </section>
+
+  <!-- 성공메시지 alert -->
+  <span id="msg" th:text="${successMessage}" style="display:none"></span>
+  <script>
+    // 성공 메시지 출력 (CUD)
+    let msg = document.getElementById("msg").textContent;
+    if (msg) alert(msg);
+
+    /**
+     * 리뷰 수정 폼 보여주기
+     */
+    function showEditForm(reviewNo) {
+      const reviewEl = document.getElementById('review-' + reviewNo);
+      reviewEl.querySelector('.review-view').style.display = 'none';
+      reviewEl.querySelector('.review-edit').style.display = 'block';
+    }
+
+    /**
+     * 리뷰 수정 취소
+     */
+    function cancelEdit(reviewNo) {
+      const reviewEl = document.getElementById('review-' + reviewNo);
+      reviewEl.querySelector('.review-edit').style.display = 'none';
+      reviewEl.querySelector('.review-view').style.display = 'block';
+    }
+  </script>
+</body>
+</html>

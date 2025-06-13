@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EMAIL_INPUT FORM</title>
+    <style>
+        .validation-icon {
+            font-size: 1.2em;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="common/header.html"></div>
+<div style="text-align: center;">
+<form action="/member/email-list" method="post" autocomplete="off">
+<!-- 2.<form action="email_input"으로 되어있어서 submit해도 input페이지로만 돌아가길래
+<form action="/member/email-list">로 바꿈-->
+<!--1.<form action="email_input"으로 되어있는데 새로 바꾼 URL은 email-input이라서 오류가 났다-->
+    <label>Email : </label>
+    <input type="text" name="email" id="emailInput" autocomplete="off">
+    <span id="emailValidation" class="validation-icon"></span>
+    <input type="submit" value="SUBMIT">
+</form>
+</div>
+<script>
+    // Regular expression for basic email validation
+    function isValidEmail(email) {
+        // Simple standard email regex
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    const emailInput = document.getElementById('emailInput');
+    const emailValidation = document.getElementById('emailValidation');
+
+    emailInput.addEventListener('input', function () {
+        const email = emailInput.value.trim();
+        if (email === "") {
+            emailValidation.textContent = "";
+            return;
+        }
+        if (isValidEmail(email)) {
+            emailValidation.textContent = "✅";
+        } else {
+            emailValidation.textContent = "❌이메일 형식을 갖춰주세요";
+        }
+    });
+    //2) go to the controller to mapping the /email_input
+</script>
+<a th:href="@{/}">Go back to the main page</a>
+</body>
+</html>
