@@ -36,6 +36,22 @@
     ORDER BY R.REVIEW_NO DESC
   </select>
 
+  <select id="findReviewsByContentNo" resultMap="reviewResultMap" parameterType="int">
+    SELECT
+    R.REVIEW_NO,
+    R.REVIEW_DATE,
+    R.REVIEW_SCORE,
+    R.REVIEW_CONTENT,
+    M.MEMBER_NO,
+    M.NICKNAME,
+    M.MEMBER_NAME
+    FROM REVIEW R
+    JOIN MEMBER_CONTENTS MC ON R.REVIEW_NO = MC.REVIEW_NO
+    JOIN MEMBER M ON MC.MEMBER_NO = M.MEMBER_NO
+    WHERE MC.CONTENTS_NO = #{no}
+    ORDER BY R.REVIEW_NO DESC
+  </select>
+
   <!--
     useGeneratedKeys: DB 에서 자동 생성된 REVIEW_NO(PK)를 insert 후 가져오기 위해 사용
     keyProperty="reviewNo": 자동 생성된 값을 ReviewDTO의 reviewNo 필드에 자동으로 셋팅함

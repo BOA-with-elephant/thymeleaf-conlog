@@ -13,5 +13,5 @@ public interface ReviewMapper {
     List<ReviewDTO> findAllReview();
     void updateReview(ReviewDTO updateReview);
     void deleteReview(int reviewNo);
-
+    List<ReviewDTO> findReviewsByContentNo(int no);
 }
