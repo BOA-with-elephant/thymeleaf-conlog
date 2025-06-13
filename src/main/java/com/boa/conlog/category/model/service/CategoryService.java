@@ -19,8 +19,16 @@ public class CategoryService {
     }
 
     @Transactional
-    public void registCategory(String categoryName) {
-        categoryMapper.registCategory(categoryName); // comment. 만약 추가가 안된다면? 실패한다면 어떤식으로 rollback되는지. void반환인데 결과 어케 아는지?
+    public boolean registCategory(String categoryName) {
+        int result = categoryMapper.registCategory(categoryName);
+
+        if(result > 0){
+            System.out.println(result);
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     public CategoryDTO findOneCategory(int categoryNo) {
@@ -28,12 +36,25 @@ public class CategoryService {
     }
 
     @Transactional
-    public void modifyCategory(CategoryDTO categoryDTO) {
-        categoryMapper.modifyCategory(categoryDTO);
+    public boolean modifyCategory(CategoryDTO categoryDTO) {
+        int result = categoryMapper.modifyCategory(categoryDTO);
+
+        if(result > 0){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     @Transactional
-    public void deleteCategory(int categoryNo) {
-        categoryMapper.deleteCategory(categoryNo);
+    public boolean deleteCategory(int categoryNo) {
+
+        int result = categoryMapper.deleteCategory(categoryNo);
+
+        if(result > 0){
+            return true;
+        }else{
+            return false;
+        }
     }
 }

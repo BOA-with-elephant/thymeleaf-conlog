@@ -9,11 +9,11 @@ import java.util.List;
 public interface CategoryMapper {
     List<CategoryDTO> findAllCategory();
 
-    void registCategory(String categoryName);
+    int registCategory(String categoryName);
 
     CategoryDTO findOneCategory(int categoryId);
 
-    void modifyCategory(CategoryDTO categoryDTO);
+    int modifyCategory(CategoryDTO categoryDTO);
 
-    void deleteCategory(int categoryNo);
+    int deleteCategory(int categoryNo);
 }
