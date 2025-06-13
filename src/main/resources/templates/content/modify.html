@@ -30,11 +30,11 @@
                th:value="${content.year}"  min="1800" max="2025"><br>
         <label>이미지 URL</label>
         <input type="text" name="url" th:value="${content.url}"><br>
-        <label>카테고리 번호</label>
-        <input type="number" name="categoryCode"
-               th:value="${content.categoryCode}" min="1" max="7">
-<!--        <select name="categoryCode" id="categoryCode"/>-->
-        <hr><input type="submit" value="수정">
+        <label>카테고리 선택</label>
+        <!--<input type="number" name="categoryCode"
+               th:value="${content.categoryCode}" min="1" max="7">-->
+        <select name="categoryCode" id="categoryCode"/>
+        <hr><input type="submit" value="완료">
 
         <script>
             fetch("/content/category")
@@ -45,7 +45,7 @@
                     const $categoryCode = document.getElementById("categoryCode");
                     for(let index in data) {
                         const $option = document.createElement('option');
-                        $option.value = data[index].code;
+                        $option.value = data[index].no;
                         $option.textContent = data[index].name;
                         $categoryCode.appendChild($option);
                     }

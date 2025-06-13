@@ -89,7 +89,7 @@
 
     <select id="findAllCategory" resultMap="categoryResultMap">
         SELECT CATEGORY_NO, CATEGORY_NAME
-        FROM CONTENTS
+        FROM CATEGORY
     </select>
 
 </mapper>
