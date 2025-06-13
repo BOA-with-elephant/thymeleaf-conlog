@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        const successMessage = '[[${ successMessage }]]';
+
+        if(successMessage) {
+            alert(successMessage);
+        }
+    </script>
+</head>
+<body>
+    <div th:replace="common/header.html"></div>
+    <h3 align="center">OTT 상세 정보</h3>
+    <table align="center" border="1">
+        <tr>
+            <th>번호</th>
+            <th>이름</th>
+        </tr>
+        <tr>
+            <td th:text="${oneOtt.ottNo}" class="selectedOttNo"></td>
+            <td th:text="${oneOtt.ottName}"></td>
+        </tr>
+    </table>
+    <br>
+    <div style="text-align: center" >
+        <div style="display: inline-block;">
+            <button id="modifyBtn">수정하기</button>
+        </div>
+        <form action="/ott/delete" method="post" style="display: inline-block;">
+            <input type="hidden" th:value="${oneOtt.ottNo}" name="ottNo">
+            <button id="deleteBtn">삭제하기</button>
+        </form>
+        <form action='/ott/modify' method="post" id="modifyForm">
+            <input type="hidden" th:value="${oneOtt.ottNo}" name="ottNo">
+            <label>수정할 이름 : </label><input type="text" name="ottName" id="modifyName"/>
+            <button type="submit" id="submit">수정</button>
+        </form>
+    </div>
+
+    <script>
+        const $modifyBtn = document.getElementById("modifyBtn");
+        $modifyBtn.style.height = "30px";
+        const  $deleteBtn = document.getElementById("deleteBtn");
+        $deleteBtn.style.height = "30px";
+        const $modifyForm = document.getElementById("modifyForm");
+        $modifyForm.style.display = "none";
+        const $label = document.getElementsByTagName("label");
+        const $modifyName = document.getElementById("modifyName");
+        $modifyName.style.height = "25px";
+        $modifyName.style.verticalAlign = "middle";
+        const $submit = document.getElementById("submit");
+        $submit.style.verticalAlign = "middle";
+        $submit.style.height = "30px";
+
+        $modifyBtn.addEventListener("click", () => {
+            $modifyBtn.style.display = "none";
+            $deleteBtn.style.display = "none";
+            $modifyForm.style.display = "block";
+        })
+    </script>
+
+</body>
+</html>

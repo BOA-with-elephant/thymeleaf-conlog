@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boa.conlog.ott.model.dao.OttMapper">
+    <resultMap id="ottResultMap" type="com.boa.conlog.ott.model.dto.OttDTO">
+        <id property="ottNo" column="OTT_NO"/>
+        <result property="ottName" column="OTT_NAME"/>
+    </resultMap>
+
+    <!-- OTT 전체 조회 -->
+    <select id="selectAllOtt" resultMap="ottResultMap">
+        SELECT
+               *
+          FROM OTT
+    </select>
+
+    <!-- OTT 상세 조회 -->
+    <select id="selectOneOtt" parameterType="_int" resultMap="ottResultMap">
+        SELECT
+               *
+          FROM OTT
+         WHERE OTT_NO = #{ ottNo }
+    </select>
+
+    <!-- OTT 등록 -->
+    <insert id="registNewOtt" parameterType="com.boa.conlog.ott.model.dto.OttDTO">
+        INSERT INTO OTT
+        (
+            OTT_NO,
+            OTT_NAME
+        )
+        VALUES
+        (
+            #{ ottNo },
+            #{ ottName }
+        )
+    </insert>
+
+    <!-- 마지막 OTT 번호 조회 -->
+    <select id="selectLastOttNo" resultType="_int">
+        SELECT
+               OTT_NO
+          FROM OTT
+         WHERE OTT_NAME = "그 외"
+    </select>
+
+    <!-- 마지막 OTT 번호 + 1 하기 -->
+    <update id="updateLastOttNo" parameterType="_int">
+        UPDATE OTT
+           SET OTT_NO = #{ newLastOttNo }
+         WHERE OTT_NAME = "그 외"
+    </update>
+
+    <!-- OTT 수정 -->
+    <update id="modifyOttName" parameterType="com.boa.conlog.ott.model.dto.OttDTO">
+        UPDATE OTT
+           SET OTT_NAME = #{ ottName }
+         WHERE OTT_NO = #{ ottNo }
+    </update>
+
+    <!-- OTT 삭제 -->
+    <delete id="deleteOtt" parameterType="_int">
+        DELETE FROM OTT
+         WHERE OTT_NO = #{ ottNo }
+    </delete>
+</mapper>
