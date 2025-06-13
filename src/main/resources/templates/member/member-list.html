@@ -15,7 +15,9 @@
 </head>
 <body>
 <!--header.html파일을 따로 만들어서 header 부분을 대체replace한다-->
-<div th:replace="common/header.html"></div>
+<a th:href="@{/member/index}">
+    <div th:replace="common/header.html"/>
+</a>
 <table align="center" border="1">
     <tr>
         <th>memberNo</th>
@@ -41,7 +43,6 @@
     </tr>
 </table>
 <!--13:12 put the hyperlink to make returning to the main page easier-->
-<a th:href="@{/}">Go back to the main page</a>
 <div align="right">
     <button onclick="location.href='/member/update'">Update member</button>
     <button onclick="location.href='/member/delete'">Delete member</button>
