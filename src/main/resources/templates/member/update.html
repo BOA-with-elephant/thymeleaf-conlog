@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Member Info</title>
+</head>
+<body>
+<tbody th:replace="member/member-list.html"></tbody>
+    <div style="text-align: center;">
+    <h2><i>Update Menu</i></h2>
+    <form action="/member/update" method="post">
+        <label> Member No: </label><input type="number" name="memberNo"><br>
+        <label> New Name: </label><input type="text" name="memberName"><br>
+        <label> New nickname: </label><input type="text" name="nickname"><br>
+        <label> New pw: </label><input type="password" name="pw"><br>
+        <label> New email: </label><input type="email" name="email"><br>
+        <label> New phone: </label><input type="text" name="phone"><br>
+        <input type="submit" value="SUBMIT">
+    </form>
+    </div>
+
+    <script>
+        fetch("/member/member-list")
+            .then(res => res.json())
+            .then(data =>{
+                console.log(data);
+
+                const $memberNo = document.getElementById("memberNo");
+                for (let index in data){
+                    const $option = document.createElement('option');
+                    $option.value = data[index].code;
+                    $option.value = data[index].name;
+                    $memberNo.appendChild($option);
+                }
+            })
+    </script>
+    <a th:href="@{/}">Go back to the main page</a>
+
+<!--다 만들었으면 MemberMapper.xml에 <UPDATE></UPDATE>만들러 가기17:32-->
+</body>
+</html>

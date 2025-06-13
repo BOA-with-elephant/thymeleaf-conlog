@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boa.conlog.category.model.dao.CategoryMapper">
+    <!-- ResultMap 만들어서 DTO와 매칭 -->
+    <resultMap id="categoryResultMap" type="com.boa.conlog.category.model.dto.CategoryDTO">
+        <id property="categoryNo" column="CATEGORY_NO"/>
+        <result property="categoryName" column="CATEGORY_NAME"/>
+    </resultMap>
+
+    <!-- 전체 리스트 조회 -->
+    <select id="findAllCategory" resultMap="categoryResultMap">
+        SELECT
+               CATEGORY_NO
+             , CATEGORY_NAME
+        FROM CATEGORY
+        ORDER BY CATEGORY_NO
+    </select>
+
+    <!-- 카테고리 추가 -->
+    <insert id="registCategory" parameterType="String">
+        INSERT INTO CATEGORY
+        (
+            CATEGORY_NAME
+        )
+        VALUE
+        (
+            #{ categoryName }
+        )
+    </insert>
+
+    <select id="findOneCategory" parameterType="int" resultMap="categoryResultMap">
+        SELECT
+                CATEGORY_NO
+              , CATEGORY_NAME
+          FROM CATEGORY
+        WHERE CATEGORY_NO = #{ categoryId }
+    </select>
+
+    <update id="modifyCategory" parameterType="com.boa.conlog.category.model.dto.CategoryDTO">
+        UPDATE  CATEGORY
+           SET CATEGORY_NAME = #{ categoryName }
+         WHERE CATEGORY_NO = #{ categoryNo }
+    </update>
+
+    <delete id="deleteCategory" parameterType="int">
+        DELETE
+               FROM CATEGORY
+         WHERE CATEGORY_NO = #{ categoryNo }
+    </delete>
+
+</mapper>

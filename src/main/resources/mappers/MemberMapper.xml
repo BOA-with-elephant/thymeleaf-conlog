@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boa.conlog.member.model.dao.MemberMapper">
+
+<!--member패키지 내에있는 MemberDTO 썼더니 mapper 안 맞다고 자꾸 오류 나서 MemberMapper.xml을-->
+<!--따로 파고 <mapper>를 com.boa.conlog.member.model.dao.MemberMapper로 바꿔줌-->
+    <resultMap id="memberResultMap" type="com.boa.conlog.member.model.dto.MemberDTO">
+<!--아래의 id와 result property는 참조하고 있는 DTO에 선언된 필드와 이름이 동일해야 오류가 나지 않습니다.
+    예. DTO에서 memberCode라고 했는데 여기서 memberNo라고 하면 못 읽어옴.
+    예2. 여기서 name이라고 했는데 DTO에서는 memberName이라고 했다면 불일치로 못 읽어옴 15:17 250612-->
+        <id property="memberNo" column="MEMBER_NO"/>
+        <result property="memberName" column="MEMBER_NAME"/>
+        <result property="nickname" column="NICKNAME"/>
+        <result property="id" column="ID"/>
+        <result property="pw" column="PW"/>
+        <result property="email" column="EMAIL"/>
+        <result property="phone" column="PHONE"/>
+    </resultMap>
+
+    <select id="findAllMember" resultMap="memberResultMap">
+        SELECT MEMBER_NO,
+               MEMBER_NAME,
+               NICKNAME,
+               ID,
+               PW,
+               EMAIL,
+               PHONE
+          FROM MEMBER
+        ORDER BY MEMBER_NO
+    </select>
+
+    <select id="findMemberByEmail" parameterType="com.boa.conlog.member.model.dto.EmailAndMemberDTO" resultMap="memberResultMap">
+        SELECT
+            EMAIL,
+            MEMBER_NO,
+            MEMBER_NAME,
+            NICKNAME,
+            ID,
+            PW,
+            PHONE
+        FROM MEMBER
+        WHERE EMAIL = #{email}
+    </select>
+    
+    <update id="updateMember" parameterType="com.boa.conlog.member.model.dto.MemberDTO">
+        UPDATE MEMBER
+        SET
+            MEMBER_NO = #{ memberNo },
+            MEMBER_NAME = #{ memberName },
+            NICKNAME = #{ nickname },
+            PW = #{ pw },
+            EMAIL = #{ email },
+            PHONE = #{ phone }
+       WHERE MEMBER_NO = #{ memberNo }
+    </update>
+
+    <delete id="deleteMember" parameterType="com.boa.conlog.member.model.dto.MemberDTO">
+        DELETE
+        FROM MEMBER
+        WHERE MEMBER_NO = #{ memberNo }
+    </delete>
+
+    <insert id="createNewMember" parameterType="com.boa.conlog.member.model.dto.MemberDTO">
+        INSERT INTO MEMBER
+        (
+        MEMBER_NAME,
+        NICKNAME,
+        ID,
+        PW,
+        EMAIL,
+        PHONE
+        )
+        VALUES
+        (
+        MEMBER_NAME = #{ memberName },
+        NICKNAME = #{ nickname },
+        ID = #{ id },
+        PW = #{ pw },
+        EMAIL = #{ email },
+        PHONE = #{ phone }
+        )
+    </insert>
+</mapper>
