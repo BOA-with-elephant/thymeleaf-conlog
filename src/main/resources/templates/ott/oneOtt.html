@@ -14,7 +14,7 @@
 </head>
 <body>
     <div th:replace="common/header.html"></div>
-    <h3 align="center">OTT 상세 정보</h3>
+    <h1 align="center">OTT 상세 정보</h1>
     <table align="center" border="1">
         <tr>
             <th>번호</th>
@@ -38,29 +38,42 @@
             <input type="hidden" th:value="${oneOtt.ottNo}" name="ottNo">
             <label>수정할 이름 : </label><input type="text" name="ottName" id="modifyName"/>
             <button type="submit" id="submit">수정</button>
+            <span align="center" style="display: none; color: #c0392b; font-weight: bold" id="warningMessage">OTT 명을 입력해주세요.</span>
         </form>
+        <div style="display: inline-block">
+            <button onclick="window.location.href='/ott/list'" id="toList">OTT 목록으로</button>
+        </div>
     </div>
 
     <script>
         const $modifyBtn = document.getElementById("modifyBtn");
-        $modifyBtn.style.height = "30px";
         const  $deleteBtn = document.getElementById("deleteBtn");
-        $deleteBtn.style.height = "30px";
         const $modifyForm = document.getElementById("modifyForm");
         $modifyForm.style.display = "none";
-        const $label = document.getElementsByTagName("label");
         const $modifyName = document.getElementById("modifyName");
         $modifyName.style.height = "25px";
         $modifyName.style.verticalAlign = "middle";
-        const $submit = document.getElementById("submit");
-        $submit.style.verticalAlign = "middle";
-        $submit.style.height = "30px";
+        const $warningMessage = document.getElementById("warningMessage");
+        const $toList = document.getElementById("toList");
 
         $modifyBtn.addEventListener("click", () => {
             $modifyBtn.style.display = "none";
             $deleteBtn.style.display = "none";
             $modifyForm.style.display = "block";
+            $toList.style.display = "none";
         })
+
+        $modifyForm.addEventListener("submit", (e) => {
+            const inputValue = $modifyName.value.trim();
+
+            if(inputValue == null || inputValue == ""){
+                e.preventDefault();
+                $warningMessage.style.display="block";
+            } else {
+                $warningMessage.style.display = "none";
+            }
+        })
+
     </script>
 
 </body>

@@ -14,8 +14,6 @@
 <body>
     <div th:replace="common/header.html"></div>
     <h1 align="center">OTT 관리 페이지</h1>
-
-    <h3 align="center">OTT 리스트</h3>
     <table border="1" align="center">
         <tr>
             <th>번호</th>
@@ -29,9 +27,10 @@
     <br>
     <div style="text-align: center">
         <button id="registBtn">새 OTT 등록하기</button>
-        <form action="/ott/regist" method="post">
+        <form action="/ott/regist" method="post" id="resitForm">
             <input type="text" name="newOttName" id="inputOttName" placeholder="새로 등록할 OTT 이름을 입력해주세요." style="display: none"/>
             <button type="submit" id="submit" style="display: none">등록하기</button>
+            <span align="center" style="display: none; color: #c0392b; font-weight: bold" id="warningMessage">OTT 명을 입력해주세요.</span>
         </form>
     </div>
     <script>
@@ -52,9 +51,10 @@
 
         /* 새 OTT 등록하기 */
         const $registBtn = document.getElementById("registBtn");
-        $registBtn.style.height = "30px";
         const $inputOttName = document.getElementById("inputOttName");
         const $submit = document.getElementById("submit");
+        const $registForm = document.getElementById("resitForm");
+        const $warningMessage = document.getElementById("warningMessage");
 
         $registBtn.addEventListener("click", () => {
             $registBtn.style.display = "none";
@@ -63,9 +63,20 @@
             $inputOttName.style.width = "220px";
             $inputOttName.style.verticalAlign = "middle";
             $submit.style.display = "inline-block";
-            $submit.style.height = "30px";
-            $submit.style.verticalAlign = "middle";
         })
+
+        $registForm.addEventListener("submit", (e) => {
+            const inputValue = $inputOttName.value.trim();
+
+            if(inputValue == null || inputValue == ""){
+                e.preventDefault();
+                $warningMessage.style.display="block";
+            } else {
+                $warningMessage.style.display = "none";
+            }
+        })
+
+
     </script>
 </body>
 </html>
