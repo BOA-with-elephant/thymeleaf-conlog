@@ -10,9 +10,17 @@
     text-align: center;
   }
 
+  div {
+    text-align: center;
+  }
+
   a {
     text-decoration: none;
     color: orangered;
+  }
+
+  input {
+    text-align: center;
   }
 </style>
 <body>
@@ -20,19 +28,21 @@
     <div th:replace="common/header.html"/>
   </a>
   <form th:action="@{/content/create}" method="post">
+    <div>
     <label>컨텐츠 이름</label>
     <input type="text" name="contentsName">
     <br>
     <label>작가/감독 이름</label>
     <input type="text" name="creatorName"><br>
     <label>출품 연도</label>
-    <input type="number" name="year" min="1800" max="2025"><br>
+    <input type="number" name="year" min="1901" max="2155"><br>
     <label>이미지 URL</label>
     <input type="text" name="url"><br>
     <label>카테고리 선택</label>
     <select name="categoryCode" id="categoryCode"/>
     <hr>
     <input type="submit" value="완료">
+    </div>
   </form>
 
   <script>

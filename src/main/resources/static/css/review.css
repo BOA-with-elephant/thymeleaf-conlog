@@ -255,3 +255,12 @@ table th {
 .delete {
   background-color: #E91E63;
 }
+
+.create {
+  border: none;
+  padding: 10px;
+  color: #ffffff;
+  font-weight: bold;
+  background-color: #ef4f91;
+  border-radius: 8px;
+}
