@@ -33,9 +33,9 @@
         <td th:text="${ content.url }"></td>
         <td th:text="${ content.categoryCode }"></td>
         <td>
-            <a th:href="@{/content/detail/{no}(no=${content.no})}">[상세]</a>
-            <a th:href="@{/content/modify/{no}(no=${content.no})}">[수정]</a>
-            <a th:href="@{/content/delete/{no}(no=${content.no})}">[삭제]</a>
+            <button class="view" th:onclick="|location.href='@{/content/detail/{no}(no=${content.no})}'|">view</button>
+            <button class="modify" th:onclick="|location.href='@{/content/modify/{no}(no=${content.no})}'|">modify</button>
+            <button class="delete" th:onclick="|location.href='@{/content/delete/{no}(no=${content.no})}'|">delete</button>
         </td>
     </tr>
 </table>
