@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create New Member</title>
+</head>
+<body>
+<tbody th:replace="member/member-list.html"></tbody>
+<div align="center">
+<h3><i>Register new menu</i></h3>
+<form action="/member/create" method="post">
+    <label>Member name: </label><input type="text" name="memberName"><br>
+    <label>Nickname: </label><input type="text" name="nickname"><br>
+    <label>Id: </label><input type="text" name="id"><br>
+    <label>Password: </label><input type="password" name="pw"><br>
+    <label>Email: </label><input type="text" name="email"><br>
+    <label>Phone: </label><input type="text" name="phone"><br>
+    <input type="submit" value="추가">
+</form>
+</div>
+<script>
+    fetch("/member/member-list")
+        .then(res => res.json())
+        .then(data =>{
+            console.log(data);
+
+            const $memberNo = document.getElementById("memberNo");
+            for (let index in data){
+                const $option = document.createElement('option');
+                $option.value = data[index].code;
+                $option.value = data[index].name;
+                $memberNo.appendChild($option);
+            }
+        })
+</script>
+</body>
+</html>
