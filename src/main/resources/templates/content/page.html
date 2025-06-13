@@ -30,7 +30,9 @@
         <td th:text="${ content.contentsName }"></td>
         <td th:text="${ content.creatorName }"></td>
         <td th:text="${ content.year }"></td>
-        <td th:text="${ content.url }"></td>
+        <td>
+            <img th:src="${content.url}" alt="이미지" style="max-width:100px; max-height:80px;" />
+        </td>
         <td th:text="${ content.categoryCode }"></td>
         <td>
             <button class="view" th:onclick="|location.href='@{/content/detail/{no}(no=${content.no})}'|">view</button>
@@ -50,6 +52,7 @@
     const createMessage = `[[${createMessage}]]`;
     if(createMessage) alert(createMessage);
 </script>
+<br>
 <br>
 <div style="text-align: center;">
     <a class="create" th:href="@{/content/create}">+ 새로운 컨텐츠 추가</a>

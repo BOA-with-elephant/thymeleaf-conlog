@@ -32,6 +32,7 @@
             , CONTENTS_NAME
             , CREATOR_NAME
             , RELEASE_YEAR
+            , IMAGE_URL
             , CATEGORY_NO
         FROM CONTENTS
     </select>
@@ -47,6 +48,7 @@
         , A.CONTENTS_NAME
         , A.CREATOR_NAME
         , A.RELEASE_YEAR
+        , A.IMAGE_URL
         , B.CATEGORY_NAME
         FROM CONTENTS A
         JOIN CATEGORY B USING (CATEGORY_NO)
@@ -76,6 +78,7 @@
           CONTENTS_NAME
         , CREATOR_NAME
         , RELEASE_YEAR
+        , IMAGE_URL
         , CATEGORY_NO
         )
         VALUES
@@ -83,6 +86,7 @@
           #{ contentsName }
         , #{ creatorName }
         , #{ year }
+        , #{ url }
         , #{ categoryCode }
         )
     </insert>
