@@ -7,16 +7,13 @@
   <link rel="stylesheet" th:href="@{/css/review.css}"/>
 </head>
 <body>
-  <!-- check. 컨텐츠페이지에 같이 띄울거라면 헤더 삭제 필요 -->
-<!--  <div th:replace="common/header.html"/>-->
-
   <div th:fragment="reviewFragment">
     <section id="review-section">
       <h3>리뷰 등록</h3>
       <form th:action="@{/review/regist}" method="post" class="review-form">
-        <!-- check. (임시값 전달중) 로그인 사용자 정보 & 콘텐츠 정보 : 추후 동적으로 바인딩 필요 -->
+        <!-- check. (임시값 전달중) 로그인 사용자 정보 : 추후 동적으로 바인딩 필요 -->
         <input type="hidden" name="memberNo" value="1"/>
-        <input type="hidden" name="contentsNo" value="1"/>
+        <input type="hidden" name="contentsNo" th:value="${content.no}"/>
 
         <!-- 점수 입력 < 별점 라디오 버튼 스타일 > -->
         <label>별점
@@ -76,8 +73,7 @@
               <form th:action="@{/review/edit}" method="post">
                 <input type="hidden" name="reviewNo" th:value="${rv.reviewNo}"/>
                 <input type="hidden" name="memberNo" th:value="${rv.member.memberNo}"/>
-                <!-- check. (임시값 전달중) 콘텐츠 정보 바인딩 필요 -->
-                <input type="hidden" name="contentsNo" value="1"/>
+                <input type="hidden" name="contentsNo" th:value="${content.no}"/>
 
                 <!-- 점수 수정 입력 (기존 점수와 제시한 값이 같으면 해당 별점이 기본 선택(checked) 되도록 설정) -->
                 <label>점수:
@@ -116,7 +112,6 @@
           </li>
         </ul>
       </div>
-
 
       <!-- 리뷰가 없을 때 -->
       <p th:if="${#lists.isEmpty(reviews)}">리뷰가 아직 없습니다.</p>
