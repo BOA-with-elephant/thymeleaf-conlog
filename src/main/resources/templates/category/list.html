@@ -3,8 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Category Manager</title>
-    <h1 align="center" style="color: orangered">Conlog</h1>
-    <hr>
     <link rel="stylesheet" th:href="@{/css/review.css}"/>
     <script>
         const successMessage = `[[${successMessage}]]`;
@@ -15,6 +13,9 @@
     </script>
 </head>
 <body>
+<a href="/">
+    <div th:replace="common/header.html"/>
+</a>
 <div name="contents" align="center">
     <h1>Category Manger</h1>
 
