@@ -6,7 +6,9 @@
     <link rel="stylesheet" th:href="@{/css/review.css}"/>
 </head>
 <body>
-    <div th:replace="common/header.html"> </div>
+    <a th:href="@{/member/index}">
+        <div th:replace="common/header.html"/>
+    </a>
     <table align="center" border-collapse="collapse" border="2">
         <tr>
             <th>email</th>
@@ -27,10 +29,6 @@
             <td th:text="${member.phone}"></td>
         </tr>
     </table>
-    <a th:href="@{/member/email-input}">Go back to the latest page</a>
-    <div style="text-align: right;">
-        <a th:href="@{/}">Go back to the main page</a>
-    </div>
 </body>
 </html>
 <!--

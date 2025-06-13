@@ -13,7 +13,7 @@
     </style>
 </head>
 <body>
-<div th:replace="common/header.html"></div>
+<tbody th:replace="member/member-list.html"></tbody>
 <div style="text-align: center;">
 <form action="/member/email-list" method="post" autocomplete="off">
 <!-- 2.<form action="email_input"으로 되어있어서 submit해도 input페이지로만 돌아가길래
@@ -49,6 +49,5 @@
     });
     //2) go to the controller to mapping the /email_input
 </script>
-<a th:href="@{/}">Go back to the main page</a>
 </body>
 </html>

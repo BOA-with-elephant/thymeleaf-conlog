@@ -32,7 +32,9 @@ public class MemberController {
     }
 
     @GetMapping("/email-input")
-    public String showEmailInputForm(){
+    public String showEmailInputForm(Model model){
+        List<MemberDTO> memberList = memberService.findAllMember();
+        model.addAttribute("memberList", memberList);
         return "member/email-input";
     }
 
