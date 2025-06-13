@@ -264,3 +264,9 @@ table th {
   background-color: #ef4f91;
   border-radius: 8px;
 }
+
+.content-span {
+  color: #ffffff;
+  font-weight: bold;
+  background-color: #ef4f91;
+}
