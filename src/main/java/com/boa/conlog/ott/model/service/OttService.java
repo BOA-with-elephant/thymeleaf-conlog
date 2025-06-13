@@ -56,4 +56,15 @@ public class OttService {
 
         ottMapper.deleteOtt(ottNo);
     }
+
+    /* "그 외" 전 OTT 번호 불러오기 */
+    public int findLastSecondOttNo() {
+
+        return ottMapper.findLastSecondOttNo();
+    }
+
+    /* "그 외" 번호 수정 */
+    public void modifyEctOttNo(int newEctOttNo) {
+         ottMapper.modifyEctOttNo(newEctOttNo);
+    }
 }
