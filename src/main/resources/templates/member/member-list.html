@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MEMBER LIST</title>
+    <script>
+        const updateSuccess = `[[${updateSuccess}]]`;
+        if(updateSuccess) alert(updateSuccess);
+        const deleteSuccess = `[[${deleteSuccess}]]`;
+        if(deleteSuccess) alert(deleteSuccess);
+        const successMessage = `[[${successMessage}]]`;
+        if(successMessage) alert(successMessage);
+    </script>
+</head>
+<body>
+<!--header.html파일을 따로 만들어서 header 부분을 대체replace한다-->
+<div th:replace="common/header.html"></div>
+<table align="center" border="1">
+    <tr>
+        <th>memberNo</th>
+        <th>memberName</th>
+        <th>nickname</th>
+        <th>id</th>
+        <th>pw</th>
+        <th>email</th>
+        <th>phone</th>
+    </tr>
+    <tr th:each="member: ${memberList}">
+<!--MemberController에서 List<MemberDTO> memberList로 불러온 값을 memberList변수를 ${}안에 넣어 가져온다.-->
+        <td th:text="${member.memberNo}"></td>
+        <td th:text="${member.memberName}"></td>
+        <td th:text="${member.nickname}"></td>
+        <td th:text="${member.id}"></td>
+        <td th:text="${member.pw}"></td>
+        <td th:text="${member.email}"></td>
+        <td th:text="${member.phone}"></td>
+<!--        <td><a th:href="@{|/member/update?memberNo=${member.memberNo}|}">Update</a></td>-->
+<!-- ${member. ___} __안에 들어갈 값을 윗 라인의 컬럼명(제목열)과 일치시킨다.
+     제목열<th>___</th> 안에 들어갈 거는 MemberDTO의 필드명과 일치시킨다.-->
+    </tr>
+</table>
+<!--13:12 put the hyperlink to make returning to the main page easier-->
+<a th:href="@{/}">Go back to the main page</a>
+<div align="right">
+    <button onclick="location.href='/member/update'">Update member</button>
+    <button onclick="location.href='/member/delete'">Delete member</button>
+</div>
+
+<!--16:55 1.수정 form으로 인도될 button create-->
+<!--2. make a modify.html under the resources/templates/member directory-->
+<!--3. 표 안에 넣어줌 17:06-->
+</body>
+</html>
