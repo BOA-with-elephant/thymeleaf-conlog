@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boa.conlog.content.model.dao.ContentMapper">
+    <resultMap id="contentResultMap" type="com.boa.conlog.content.model.dto.ContentDTO">
+        <id property="no" column="CONTENTS_NO"/>
+        <result property="contentsName" column="CONTENTS_NAME"/>
+        <result property="creatorName" column="CREATOR_NAME"/>
+        <result property="year" column="RELEASE_YEAR"/>
+        <result property="url" column="IMAGE_URL"/>
+        <result property="categoryCode" column="CATEGORY_NO"/>
+    </resultMap>
+
+    <resultMap id="categoryResultMap" type="com.boa.conlog.content.model.dto.CategoryDTO">
+        <id property="no" column="CATEGORY_NO"/>
+        <result property="name" column="CATEGORY_NAME"/>
+    </resultMap>
+
+    <resultMap id="contentAndCategoryResultMap" type="com.boa.conlog.content.model.dto.ContentAndCategoryDTO">
+        <id property="no" column="CONTENTS_NO"/>
+        <result property="contentsName" column="CONTENTS_NAME"/>
+        <result property="creatorName" column="CREATOR_NAME"/>
+        <result property="year" column="RELEASE_YEAR"/>
+        <result property="url" column="IMAGE_URL"/>
+        <association property="category" column="CATEGORY_NAME" resultMap="categoryResultMap"/>
+    </resultMap>
+
+    <select id="selectAllContent" resultMap="contentResultMap">
+        SELECT
+              CONTENTS_NO
+            , CONTENTS_NAME
+            , CREATOR_NAME
+            , RELEASE_YEAR
+            , CATEGORY_NO
+        FROM CONTENTS
+    </select>
+
+    <delete id="deleteContent" parameterType="com.boa.conlog.content.model.dto.ContentDTO">
+        DELETE FROM CONTENTS
+        WHERE CONTENTS_NO = #{ no }
+    </delete>
+
+    <select id="selectContentByNo" resultMap="contentAndCategoryResultMap">
+        SELECT
+          A.CONTENTS_NO
+        , A.CONTENTS_NAME
+        , A.CREATOR_NAME
+        , A.RELEASE_YEAR
+        , B.CATEGORY_NAME
+        FROM CONTENTS A
+        JOIN CATEGORY B USING (CATEGORY_NO)
+        WHERE A.CONTENTS_NO = #{ no };
+    </select>
+
+    <update id="modifyContent" parameterType="com.boa.conlog.content.model.dto.ContentDTO">
+        UPDATE CONTENTS
+        SET
+              CONTENTS_NAME = #{ contentsName }
+            , CREATOR_NAME = #{ creatorName }
+            , RELEASE_YEAR = #{ year }
+            , IMAGE_URL = #{ url }
+            , CATEGORY_NO = #{ categoryCode }
+        WHERE CONTENTS_NO = #{ no }
+    </update>
+
+    <select id="getContent" resultMap="contentResultMap">
+        SELECT *
+        FROM CONTENTS
+        WHERE CONTENTS_NO = #{ no }
+    </select>
+
+    <insert id="createContent" parameterType="com.boa.conlog.content.model.dto.ContentDTO">
+        INSERT INTO CONTENTS
+        (
+          CONTENTS_NAME
+        , CREATOR_NAME
+        , RELEASE_YEAR
+        , CATEGORY_NO
+        )
+        VALUES
+        (
+          #{ contentsName }
+        , #{ creatorName }
+        , #{ year }
+        , #{ categoryCode }
+        )
+    </insert>
+
+    <select id="findAllCategory" resultMap="categoryResultMap">
+        SELECT CATEGORY_NO, CATEGORY_NAME
+        FROM CONTENTS
+    </select>
+
+</mapper>

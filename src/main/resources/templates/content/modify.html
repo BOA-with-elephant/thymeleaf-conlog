@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>수정</title>
+</head>
+<style>
+    a {
+        text-decoration: none;
+        color: orangered;
+    }
+</style>
+<body>
+<a href="/content/page">
+    <div th:replace="common/header.html"/>
+</a>
+
+    <form th:action="@{/content/modify/{no}(no=${content.no})}" method="post">
+
+
+        <lable th:text="${content.no}"/>
+        <label>번 컨텐츠 수정</label><hr>
+
+        <label>컨텐츠 이름</label>
+        <input type="text" name="contentsName" th:value="${content.contentsName}"><br>
+        <label>작가/감독 이름</label>
+        <input type="text" name="creatorName" th:value="${content.creatorName}"><br>
+        <label>출품 연도</label>
+        <input type="year" name="year"
+               th:value="${content.year}"  min="1800" max="2025"><br>
+        <label>이미지 URL</label>
+        <input type="text" name="url" th:value="${content.url}"><br>
+        <label>카테고리 번호</label>
+        <input type="number" name="categoryCode"
+               th:value="${content.categoryCode}" min="1" max="7">
+<!--        <select name="categoryCode" id="categoryCode"/>-->
+        <hr><input type="submit" value="수정">
+
+        <script>
+            fetch("/content/category")
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+
+                    const $categoryCode = document.getElementById("categoryCode");
+                    for(let index in data) {
+                        const $option = document.createElement('option');
+                        $option.value = data[index].code;
+                        $option.textContent = data[index].name;
+                        $categoryCode.appendChild($option);
+                    }
+                })
+        </script>
+    </form>
+</body>
+</html>
