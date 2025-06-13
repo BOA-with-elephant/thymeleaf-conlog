@@ -36,7 +36,7 @@
         </form>
         <form action='/ott/modify' method="post" id="modifyForm">
             <input type="hidden" th:value="${oneOtt.ottNo}" name="ottNo">
-            <label>수정할 이름 : </label><input type="text" name="ottName" id="modifyName"/>
+            <label style="display: inline">수정할 이름 : </label><input type="text" name="ottName" id="modifyName"/>
             <button type="submit" id="submit">수정</button>
             <span align="center" style="display: none; color: #c0392b; font-weight: bold" id="warningMessage">OTT 명을 입력해주세요.</span>
         </form>
