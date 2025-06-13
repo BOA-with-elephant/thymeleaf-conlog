@@ -57,7 +57,8 @@
     keyProperty="reviewNo": 자동 생성된 값을 ReviewDTO의 reviewNo 필드에 자동으로 셋팅함
     이렇게 해야 다음 INSERT (MEMBER_CONTENTS)에서 FK로 사용할 수 있음
   -->
-  <insert id="registReview" parameterType="com.boa.conlog.review.model.dto.ReviewDTO" useGeneratedKeys="true" keyProperty="reviewNo">
+  <insert id="registReview" parameterType="com.boa.conlog.review.model.dto.ReviewDTO"
+    useGeneratedKeys="true" keyProperty="reviewNo">
     INSERT INTO REVIEW (
     REVIEW_SCORE,
     REVIEW_CONTENT
@@ -87,6 +88,12 @@
     WHERE
     REVIEW_NO = #{reviewNo}
   </update>
+
+  <select id="findContentsNoByReviewNo" parameterType="int" resultType="int">
+    SELECT CONTENTS_NO
+    FROM MEMBER_CONTENTS
+    WHERE REVIEW_NO = #{reviewNo}
+  </select>
 
   <delete id="deleteReview" parameterType="int">
     DELETE FROM REVIEW

@@ -43,4 +43,9 @@ public class ReviewService {
     public List<ReviewDTO> findReviewsByContentNo(int no) {
         return reviewMapper.findReviewsByContentNo(no);
     }
+
+    public int findContentsNoByReviewNo(int reviewNo) {
+    return reviewMapper.findContentsNoByReviewNo(reviewNo);
+    }
+
 }

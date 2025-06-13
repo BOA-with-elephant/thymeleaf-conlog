@@ -35,21 +35,22 @@ public class ReviewController {
 
         reviewService.registNewReview(newReview, memberNo, contentsNo);
         rttr.addFlashAttribute("successMessage", "리뷰가 등록되었습니다!");
-        return "redirect:/review/reviewPage";
+        return "redirect:/content/detail/" + contentsNo;
     }
 
     @PostMapping("/edit")
-    public String updateReview(ReviewDTO updateReview, RedirectAttributes rttr) {
+    public String updateReview(ReviewDTO updateReview, int contentsNo, RedirectAttributes rttr) {
         reviewService.updateReview(updateReview);
         rttr.addFlashAttribute("successMessage", "리뷰가 수정되었습니다.");
-        return "redirect:/review/reviewPage";
+        return "redirect:/content/detail/" + contentsNo;
     }
 
     @GetMapping("/delete/{reviewNo}")
     public String deleteReview(@PathVariable("reviewNo") int reviewNo, RedirectAttributes rttr) {
+        int contentsNo = reviewService.findContentsNoByReviewNo(reviewNo);
         reviewService.deleteReviewByReviewNo(reviewNo);
         rttr.addFlashAttribute("successMessage", "리뷰가 삭제되었습니다.");
-        return "redirect:/review/reviewPage";
+        return "redirect:/content/detail/" + contentsNo;
     }
 
 }
