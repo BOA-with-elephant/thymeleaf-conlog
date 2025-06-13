@@ -74,12 +74,12 @@
         )
         VALUES
         (
-        MEMBER_NAME = #{ memberName },
-        NICKNAME = #{ nickname },
-        ID = #{ id },
-        PW = #{ pw },
-        EMAIL = #{ email },
-        PHONE = #{ phone }
+        #{memberName},
+        #{nickname},
+        #{id},
+        #{pw},
+        #{email},
+        #{phone}
         )
     </insert>
 </mapper>
