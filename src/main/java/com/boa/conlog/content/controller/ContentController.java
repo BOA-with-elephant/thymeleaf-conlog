@@ -79,7 +79,7 @@ public class ContentController {
         return "redirect:/content/page";
     }
 
-    @GetMapping(value = "category", produces = "application/json; charset=UTF-8")
+    @GetMapping(value = "/category", produces = "application/json; charset=UTF-8")
     @ResponseBody
     public List<CategoryDTO> findCategoryList() {
         return contentService.findAllCategory();
