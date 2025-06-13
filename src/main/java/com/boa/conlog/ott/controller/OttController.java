@@ -85,6 +85,11 @@ public class OttController {
 
         ottService.deleteOtt(ottNo);
 
+        /* "그 외" 전 ott의 번호 불러온 후 "그 외"번호 수정 */
+        int lastSecondOttNo = ottService.findLastSecondOttNo();
+        int newEctOttNo = lastSecondOttNo + 1;
+        ottService.modifyEctOttNo(newEctOttNo);
+
         rttr.addFlashAttribute("successMessage", "OTT를 성공적으로 삭제했습니다.");
 
         return "redirect:/ott/list";

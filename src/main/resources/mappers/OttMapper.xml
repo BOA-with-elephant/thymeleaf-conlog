@@ -64,4 +64,20 @@
         DELETE FROM OTT
          WHERE OTT_NO = #{ ottNo }
     </delete>
+
+    <!-- "그 외" 전 번호 불러오기 -->
+    <select id="findLastSecondOttNo" resultType="_int">
+        SELECT
+               OTT_NO
+          FROM OTT
+         ORDER BY OTT_NO DESC
+         LIMIT 1, 1
+    </select>
+
+    <!-- "그 외" 번호 수정 -->
+    <update id="modifyEctOttNo" parameterType="_int">
+        UPDATE OTT
+           SET OTT_NO = #{ newEctOttNo }
+         WHERE OTT_NAME = "그 외"
+    </update>
 </mapper>
