@@ -1,5 +1,6 @@
 package com.boa.conlog.ott.controller;
 
+import com.boa.conlog.ott.exception.OttNotFoundException;
 import com.boa.conlog.ott.model.dto.OttDTO;
 import com.boa.conlog.ott.model.service.OttService;
 import org.springframework.stereotype.Controller;
@@ -32,9 +33,13 @@ public class OttController {
 
     /* OTT 상세 조회 */
     @GetMapping("/one/{ottNo}")
-    public String selectOneOtt(@PathVariable int ottNo, Model model){
+    public String selectOneOtt(@PathVariable int ottNo, Model model) throws OttNotFoundException {
 
         OttDTO ott = ottService.selectOneOtt(ottNo);
+
+        if(ott == null){
+            throw new OttNotFoundException("해당 번호의 OTT는 찾을 수 없습니다.");
+        }
 
         model.addAttribute("oneOtt", ott);
 
@@ -84,6 +89,11 @@ public class OttController {
     public String deleteOtt(@RequestParam int ottNo, RedirectAttributes rttr){
 
         ottService.deleteOtt(ottNo);
+
+        /* "그 외" 전 ott의 번호 불러온 후 "그 외"번호 수정 */
+        int lastSecondOttNo = ottService.findLastSecondOttNo();
+        int newEctOttNo = lastSecondOttNo + 1;
+        ottService.modifyEctOttNo(newEctOttNo);
 
         rttr.addFlashAttribute("successMessage", "OTT를 성공적으로 삭제했습니다.");
 

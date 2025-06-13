@@ -28,4 +28,10 @@ public interface OttMapper {
 
     /* OTT 삭제 */
     void deleteOtt(int ottNo);
+
+    /* "그 외" 전 OTT 번호 불러오기 */
+    int findLastSecondOttNo();
+
+    /* "그 외" 번호 수정 */
+    void modifyEctOttNo(int newEctOttNo);
 }

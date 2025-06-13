@@ -16,7 +16,7 @@ import java.util.List;
 @RequestMapping("/category")
 public class CategoryController {
     /* todo. categorylist를 조회하는 작업을 servlet?intersector로 묶어서 작업할 수 있게 가능한지. ✅
-        그리고, Error Handler도 추가하기! */
+        그리고, Error Handler도 추가하기! ✅ */
 
     private CategoryService categoryService;
 
@@ -38,9 +38,11 @@ public class CategoryController {
     @PostMapping("/create")
     public String registCategory(String categoryName,RedirectAttributes rttr){
 
-        categoryService.registCategory(categoryName);
-
-        rttr.addFlashAttribute("successMessage", "신규 카테고리 등록에 성공하셨습니다!");
+        if(categoryService.registCategory(categoryName)){
+            rttr.addFlashAttribute("successMessage", "✅ 신규 카테고리 등록에 성공하셨습니다!");
+        }else{
+            rttr.addFlashAttribute("successMessage", "⚠️ 카테고리 수정이 실패하였습니다!");
+        }
 
         return "redirect:/category/list";
     }
@@ -58,9 +60,13 @@ public class CategoryController {
     @PostMapping("/update")
     public String modifyCategory(CategoryDTO categoryDTO,
                                  RedirectAttributes rttr){
-        categoryService.modifyCategory(categoryDTO);
 
-        rttr.addFlashAttribute("successMessage", "카테고리 수정이 성공적으로 되었습니다!");
+        if(categoryService.modifyCategory(categoryDTO)) {
+            rttr.addFlashAttribute("successMessage", "✅ 카테고리 수정이 성공적으로 되었습니다!");
+        }
+        else{
+            rttr.addFlashAttribute("successMessage", "⚠️ 카테고리 수정이 실패하였습니다!");
+        }
 
         return "redirect:/category/list";
     }
@@ -68,9 +74,13 @@ public class CategoryController {
     @PostMapping("/delete")
     public String deleteCategory(int categoryNo,
                                  RedirectAttributes rttr){
-        categoryService.deleteCategory(categoryNo);
 
-        rttr.addFlashAttribute("successMessage", "카테고리가 정상적으로 삭제되었습니다. ");
+        if(categoryService.deleteCategory(categoryNo)){
+            rttr.addFlashAttribute("successMessage", "✅ 카테고리가 정상적으로 삭제되었습니다. ");
+        }else{
+            rttr.addFlashAttribute("successMessage", "⚠️ 카테고리 삭제가 실패하였습니다!");
+        }
+
         return "redirect:/category/list";
     }
 

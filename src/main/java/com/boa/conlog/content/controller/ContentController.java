@@ -4,6 +4,8 @@ import com.boa.conlog.content.model.dto.CategoryDTO;
 import com.boa.conlog.content.model.dto.ContentAndCategoryDTO;
 import com.boa.conlog.content.model.dto.ContentDTO;
 import com.boa.conlog.content.model.service.ContentService;
+import com.boa.conlog.review.model.dto.ReviewDTO;
+import com.boa.conlog.review.model.service.ReviewService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,13 +21,16 @@ public class ContentController {
     //build.gradle에 valid 의존성 추가함
 
     private final ContentService contentService;
+    private final ReviewService reviewService;// check
 
-    public ContentController(ContentService contentService){
+    // check
+    public ContentController(ContentService contentService, ReviewService reviewService) {
         this.contentService = contentService;
+        this.reviewService = reviewService;
     }
 
     @GetMapping("/page")
-    public String enterContentPage(Model model){
+    public String enterContentPage(Model model) {
         List<ContentDTO> contentList = contentService.selectAllContent();
 
         model.addAttribute("contentList", contentList);
@@ -46,6 +51,8 @@ public class ContentController {
     @GetMapping("/detail/{no}")
     public String selectContentByNo(@PathVariable int no, Model model) {
         ContentAndCategoryDTO content = contentService.selectContentByNo(no);
+        List<ReviewDTO> reviews = reviewService.findReviewsByContentNo(no); // check
+        model.addAttribute("reviews", reviews);// check
         model.addAttribute("content", content);
         return "content/detail";
     }
@@ -60,8 +67,8 @@ public class ContentController {
 
     @PostMapping("/modify/{no}")
     public String modifyContent(@PathVariable int no,
-                                @Valid ContentDTO content,
-                                RedirectAttributes rttr) {
+        @Valid ContentDTO content,
+        RedirectAttributes rttr) {
         content.setNo(no);
         contentService.modifyContent(content);
         rttr.addFlashAttribute("modifyMessage", "수정에 성공하였습니다.");
@@ -69,11 +76,12 @@ public class ContentController {
     }
 
     @GetMapping("/create")
-    public void createPage() {}
+    public void createPage() {
+    }
 
     @PostMapping("/create")
     public String createContent(@Valid ContentDTO newContent,
-                                RedirectAttributes rttr){
+        RedirectAttributes rttr) {
         contentService.createContent(newContent);
         rttr.addFlashAttribute("createMessage", "컨텐츠 추가에 성공하였습니다.");
         return "redirect:/content/page";

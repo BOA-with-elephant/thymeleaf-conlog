@@ -1,8 +1,11 @@
 package com.boa.conlog.ott.model.dto;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class OttDTO {
 
     private int ottNo;
+    @NotBlank(message = "Ott명은 공백일 수 없습니다.")
     private String ottName;
 
     public OttDTO(){}
