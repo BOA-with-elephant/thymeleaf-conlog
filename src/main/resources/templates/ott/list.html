@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        const successMessage = '[[${ successMessage }]]';
+        if(successMessage){
+            alert(successMessage)
+        }
+    </script>
+</head>
+<body>
+    <h1>OTT 관리 페이지</h1>
+
+    <h3 align="center">OTT 리스트</h3>
+    <table border="1" align="center">
+        <tr>
+            <th>번호</th>
+            <th>이름</th>
+        </tr>
+        <tr th:each="ott : ${ottList}" class="ottRow">
+            <td th:text="*{ott.ottNo}" class="ottNo"></td>
+            <td th:text="*{ott.ottName}"></td>
+        </tr>
+    </table>
+    <br>
+    <div style="text-align: center">
+        <button id="registBtn">새 OTT 등록하기</button>
+        <form action="/ott/regist" method="post">
+            <input type="text" name="newOttName" id="inputOttName" placeholder="새로 등록할 OTT 이름을 입력해주세요." style="display: none"/>
+            <button type="submit" id="submit" style="display: none">등록하기</button>
+        </form>
+    </div>
+    <script>
+        /* 행 누르면 상세 페이지로 넘어가기 */
+        const $ottRow = document.querySelectorAll(".ottRow");
+        const $ottNo = document.querySelectorAll(".ottNo");
+
+        $ottRow.forEach((ott, index) => {
+            ott.style.cursor = "pointer";
+            ott.addEventListener("click", ()=>{
+                const selectedOttNo = $ottNo[index].textContent.trim();
+
+                console.log(selectedOttNo);
+
+                window.location.href = `/ott/one/${selectedOttNo}`;
+            })
+        })
+
+        /* 새 OTT 등록하기 */
+        const $registBtn = document.getElementById("registBtn");
+        $registBtn.style.height = "30px";
+        const $inputOttName = document.getElementById("inputOttName");
+        const $submit = document.getElementById("submit");
+
+        $registBtn.addEventListener("click", () => {
+            $registBtn.style.display = "none";
+            $inputOttName.style.display = "inline-block";
+            $inputOttName.style.height = "25px";
+            $inputOttName.style.width = "220px";
+            $inputOttName.style.verticalAlign = "middle";
+            $submit.style.display = "inline-block";
+            $submit.style.height = "30px";
+            $submit.style.verticalAlign = "middle";
+        })
+    </script>
+</body>
+</html>
