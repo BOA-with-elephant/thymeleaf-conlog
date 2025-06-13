@@ -39,4 +39,8 @@ public class ReviewService {
     public void updateReview(ReviewDTO updateReview) {
         reviewMapper.updateReview(updateReview);
     }
+
+    public List<ReviewDTO> findReviewsByContentNo(int no) {
+        return reviewMapper.findReviewsByContentNo(no);
+    }
 }
